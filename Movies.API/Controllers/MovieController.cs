@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Movies.API.Data;
 using Movies.API.Model;
@@ -7,6 +8,7 @@ namespace Movies.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize("ClientIdPolicy")]
     public class MovieController : ControllerBase
     {
         private readonly MoviesContext _context;

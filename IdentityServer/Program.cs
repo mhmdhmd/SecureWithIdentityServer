@@ -1,6 +1,24 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using IdentityServer;
+using IdentityServer4.Models;
+using IdentityServer4.Test;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddIdentityServer()
+    .AddInMemoryClients(Config.Clients)
+    .AddInMemoryApiScopes(Config.ApiScopes)
+    .AddInMemoryIdentityResources(Config.IdentityResources)
+    .AddTestUsers(Config.TestUsers)
+    .AddDeveloperSigningCredential();
+
+var app = builder.Build();
+app.UseStaticFiles();
+
+app.MapDefaultControllerRoute();
+
+app.UseIdentityServer();
+app.UseAuthorization();
 
 app.Run();
